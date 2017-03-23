@@ -1,6 +1,6 @@
 package application;
 
-public class Node<T, K> {
+public class Node<T extends Comparable<T>, K> {
 	protected T key;
 	protected K value;
 	protected char color;

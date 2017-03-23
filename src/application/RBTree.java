@@ -1,6 +1,6 @@
 package application;
 
-public class RBTree<T, K> {
+public class RBTree<T extends Comparable<T>, K> {
 	private Node<T, K> root;
 	private final Node<T,K> NIL = null;
 	
