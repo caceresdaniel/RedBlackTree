@@ -17,7 +17,7 @@ public class GUI extends Application {
 			bp.setCenter(view);
 			
 			Scene sc = new Scene(bp,400,400);
-			sc.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			sc.getStylesheets().add("styles/style.css");
 			primaryStage.setTitle("Red Black Tree");
 			primaryStage.setScene(sc);
 			primaryStage.show();

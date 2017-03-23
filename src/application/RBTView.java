@@ -20,9 +20,9 @@ public class RBTView extends Pane{
 	
 	public void displayTree(){
 		this.getChildren().clear();
-		if(rbtree.getRoot() != null){
-			
-		}
+//		if(rbtree.getRoot() != null){
+//			
+//		}
 		
 	}
 }
