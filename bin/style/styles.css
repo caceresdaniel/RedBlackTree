@@ -1,1 +1,24 @@
-@CHARSET "ISO-8859-1";
+.circle {
+	-fx-background-color: #ffffff;
+	-fx-border-color: #000000;
+}
+
+.textBox {
+	
+}
+
+.button {
+	
+}
+
+.label {
+	
+}
+
+.pane {
+	
+}
+
+.hbox {
+	
+}

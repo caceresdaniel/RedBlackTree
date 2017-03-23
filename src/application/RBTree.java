@@ -1,54 +1,68 @@
 package application;
 
 public class RBTree<T extends Comparable<T>, K> {
-	private Node<T, K> root;
-	private final Node<T,K> NIL = null;
-	
-	public RBTree(){
-		
+	protected Node<T, K> root;
+	private final Node<T, K> NIL = null;
+
+	public Node<T, K> getRoot() {
+		return root;
 	}
-	
-	public void findGrandPa(){
-		
+
+	public RBTree() {
+
 	}
-	
-	public void findUncle(){
-		
+
+	public void findGrandPa() {
+
 	}
-	
-	public void leftRotate(){
-		
+
+	public void findUncle() {
+
 	}
-	
-	public void rightRotate(){
-		
+
+	public void leftRotate() {
+
 	}
-	
-	public void insert(){
-		
+
+	public void rightRotate() {
+
 	}
-	
-	public void BSTInsert(){
-		
+
+	public void insert() {
+
 	}
-	
-	public void check(){
-		
+
+	public void BSTInsert() {
+
 	}
-	
-	public void preorder(){
-		
+
+	public void check() {
+
 	}
-	
-	public void inorder(){
-		
+
+	public void preorder() {
+
 	}
-	
-	public void postorder(){
-		
+
+	public void inorder() {
+
 	}
-	
-	public void breadthFirstSearch(){
-		
+
+	public void postorder() {
+
+	}
+
+	public void breadthFirstSearch() {
+
+	}
+
+	public void deleteNode() {
+		// this is a filler method for now
+	}
+
+	public boolean keySearch(int key) {
+
+		return false;
+
 	}
 }
