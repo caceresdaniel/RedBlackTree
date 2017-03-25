@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -24,20 +25,35 @@ public class GUI extends Application {
 			tf.getStyleClass().add("textBox");
 
 			Button insertButt = new Button("Insert");
+			insertButt.getStyleClass().add("button");
+			
 			Button delButt = new Button("Delete");
 			delButt.getStyleClass().add("button");
-			insertButt.getStyleClass().add("button");
+			
+			Label title = new Label("Red Black Tree");
+			title.getStyleClass().add("mainTitle");
 			
 			Label lbl = new Label("Enter a Key: ");
 			lbl.getStyleClass().add("label");
 			
-
-			HBox hb = new HBox();
-			hb.getStyleClass().add("hbox");
-			hb.getChildren().addAll(lbl, tf, insertButt, delButt);
-
+			HBox hb1 = new HBox();
+			hb1.getStyleClass().add("hbox");
+			hb1.getChildren().add(title);
+			
+			HBox hb2 = new HBox();
+			hb2.getStyleClass().add("hboxV2");
+			
+			VBox vb = new VBox();
+			vb.getStyleClass().add("vbox");
+			vb.getChildren().addAll(hb1, hb2);
+			
+			HBox hb3 = new HBox();
+			hb3.getStyleClass().add("hbox");
+			hb3.getChildren().addAll(lbl, tf, insertButt, delButt);
+			
+			bp.setTop(vb);
 			bp.setCenter(view);
-			bp.setBottom(hb);
+			bp.setBottom(hb3);
 			
 			insertButton(insertButt, tf);
 			deleteButton(delButt, tf);
@@ -52,6 +68,13 @@ public class GUI extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	public void allTheButtons(){
+		
+	}
+	
+	
+	
 
 	public void insertButton(Button insertButt, TextField tf) {
 		insertButt.setOnAction(e -> {

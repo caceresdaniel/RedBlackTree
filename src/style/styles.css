@@ -1,9 +1,3 @@
-.circle {
-	-fx-background-color: #000000;
-	-fx-border-color: #000000;
-	-fx-text-fill: #ffffff;
-}
-
 .textBox {
 	-fx-background-color: #000000;
 	-fx-text-fill: #ffffff;
@@ -18,6 +12,12 @@
 
 .label {
 	-fx-text-fill: #ffffff;
+	-fx-font-size: 120%;
+}
+
+.mainTitle {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 220%;
 }
 
 .pane {
@@ -29,4 +29,12 @@
 .hbox {
 	-fx-background-color: #000000;
 	-fx-alignment: center;
+}
+
+.hboxV2 {
+	-fx-background-color: #000000;
+}
+
+.vbox{
+	-fx-background-color: #000000;
 }
