@@ -44,19 +44,26 @@ public class RBTView extends Pane {
 			getChildren().add(line);
 			displayTree(root.right, x + hGap, y + vGap, hGap / 2);
 		}
-		
+
 		Circle circle = new Circle(x, y, radius);
-		Text txt = new Text(x - 4, y + 4, root.key + "");
-		colorSetter(root, circle);
-		txt.setFill(Color.WHITE);
-		getChildren().addAll(circle, txt);
+		if (root.equals(rbtree.NIL)) {
+			Text txt = new Text(x - 10, y + 4, "NIL");
+			colorSetter(root, circle);
+			txt.setFill(Color.WHITE);
+			getChildren().addAll(circle, txt);
+		} else {
+			Text txt = new Text(x - 8, y + 4, root.key + "");
+			colorSetter(root, circle);
+			txt.setFill(Color.WHITE);
+			getChildren().addAll(circle, txt);
+		}
 	}
-	
-	private void colorSetter(Node<Integer, String> root, Circle circle){
-		if(root.color == 'B'){
+
+	private void colorSetter(Node<Integer, String> root, Circle circle) {
+		if (root.color == 'B') {
 			circle.setFill(Color.BLACK);
 			circle.setStroke(Color.RED);
-		} else if(root.color == 'R'){
+		} else if (root.color == 'R') {
 			circle.setFill(Color.RED);
 			circle.setStroke(Color.BLACK);
 		}

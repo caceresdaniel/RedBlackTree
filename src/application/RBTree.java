@@ -2,7 +2,7 @@ package application;
 
 public class RBTree<T extends Comparable<T>, K> {
 	protected Node<T, K> root;
-	private final Node<T, K> NIL = null;
+	protected final Node<T, K> NIL = new Node<T, K>(null, null , 'B');
 
 	public Node<T, K> getRoot() {
 
@@ -15,36 +15,51 @@ public class RBTree<T extends Comparable<T>, K> {
 
 	// insert a new node
 	public void insert(T key, K value) {
-		Node<T, K> newNode = new Node<T, K>(key, value, 'B');
+		Node<T, K> newNode = new Node<T, K>(key, value, 'R'); // create the new
+																// node
 
-		BSTInsert(newNode, key);
+		BSTInsert(newNode, key); // calls method to insert the new node into the
+									// Red Black Tree
 
 	}
 
 	public boolean BSTInsert(Node<T, K> newNode, T key) {
 		if (root == null) {
 			root = newNode;
+			root.right = NIL;
+			root.left = NIL;
 		} else {
-			Node<T, K> parent = root.parent;
+			Node<T, K> parent = null;
 			Node<T, K> current = root;
-			while (current != null) {
-				if (key.compareTo(current.key) < 0) {
+
+			while (current.key != null) { // looking for parent
+				if (key.compareTo(current.key) < 0 && current != NIL) {
 					parent = current;
 					current = current.left;
-				} else if (key.compareTo(current.key) > 0) {
+
+				} else if (key.compareTo(current.key) > 0 ) {
 					parent = current;
 					current = current.right;
+
 				} else
-					return false;
+					return false; // returns false if the key is a duplicate
 			}
-			root.parent = parent;
-			if(key.compareTo(parent.key)< 0){
-				parent.left = newNode;
-			} else{
-				parent.right = newNode;
+
+			if (key.compareTo(parent.key) < 0) {
+				parent.left = newNode; // adding the new right node
+				parent.left.left = NIL;
+				parent.left.right = NIL;
+				parent.left.parent = parent; // Setting the parent for the new
+												// left node
+			} else {
+				parent.right = newNode; // adding the new right node
+				parent.right.left = NIL;
+				parent.right.right = NIL;
+				parent.right.parent = parent; // Setting the parent for the new
+												// right node
 			}
 		}
-		return true;
+		return true; // returns true if the new node is added
 
 	}
 
