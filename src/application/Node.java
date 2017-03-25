@@ -25,8 +25,8 @@ public class Node<T extends Comparable<T>, K> {
 	public char getColor() {
 		return color;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return "key is: " + key + " value is: " + value + " color is: " + color;
 	}
 }

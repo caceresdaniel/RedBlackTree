@@ -24,45 +24,48 @@ public class GUI extends Application {
 			TextField tf = new TextField();
 			tf.getStyleClass().add("textBox");
 
+			TextField tf2 = new TextField();
+			tf2.getStyleClass().add("textBox");
+
 			Button insertButt = new Button("Insert");
 			insertButt.getStyleClass().add("button");
-			
+
 			Button delButt = new Button("Delete");
 			delButt.getStyleClass().add("button");
-			
+
 			Label title = new Label("Red Black Tree");
 			title.getStyleClass().add("mainTitle");
-			
-			Label lbl = new Label("Enter a Key: ");
+
+			Label lbl = new Label("Enter Values in Corresponding fields: ");
 			lbl.getStyleClass().add("label");
-			
+
 			HBox hb1 = new HBox();
 			hb1.getStyleClass().add("hbox");
 			hb1.getChildren().add(title);
-			
+
 			HBox hb2 = new HBox();
 			hb2.getStyleClass().add("hboxV2");
-			
+
 			VBox vb = new VBox();
 			vb.getStyleClass().add("vbox");
 			vb.getChildren().addAll(hb1, hb2);
-			
+
 			allTheButtons(hb2);
-			
+
 			HBox hb3 = new HBox();
 			hb3.getStyleClass().add("hbox");
-			hb3.getChildren().addAll(lbl, tf, insertButt, delButt);
-			
+			hb3.getChildren().addAll(lbl, tf, tf2, insertButt, delButt);
+
 			bp.setTop(vb);
 			bp.setCenter(view);
 			bp.setBottom(hb3);
-			
-			insertButton(insertButt, tf);
-			deleteButton(delButt, tf);
+
+			insertButton(insertButt, tf, tf2);
+			deleteButton(delButt, tf, tf2);
 
 			Scene sc = new Scene(bp);
 			sc.getStylesheets().add("style/styles.css");
-			
+
 			primaryStage.setTitle("LAB 4");
 			primaryStage.setScene(sc);
 			primaryStage.show();
@@ -70,9 +73,9 @@ public class GUI extends Application {
 			e.printStackTrace();
 		}
 	}
-	
-	public void allTheButtons(HBox hb){
-		
+
+	public void allTheButtons(HBox hb) {
+
 		Button gpaButt = new Button("Find GrandPa");
 		gpaButt.getStyleClass().add("button");
 		Button uncButt = new Button("Find Uncle");
@@ -85,34 +88,43 @@ public class GUI extends Application {
 		postButt.getStyleClass().add("button");
 		Button breButt = new Button("BFS Traversal");
 		breButt.getStyleClass().add("button");
-		
-		hb.getChildren().addAll(gpaButt, uncButt, preButt, inButt, postButt, breButt);
-		
-	}
-	
-	
-	
 
-	public void insertButton(Button insertButt, TextField tf) {
+		hb.getChildren().addAll(gpaButt, uncButt, preButt, inButt, postButt, breButt);
+
+	}
+
+	public void insertButton(Button insertButt, TextField tf, TextField tf2) {
 		insertButt.setOnMouseClicked(e -> {
+			tf.setPromptText("Key");
+			tf2.setPromptText("Value");
+
 			int key = Integer.parseInt(tf.getText());
-			String val = "65";
-			if (rbtree.keySearch(key, val)) {
+
+			String value = tf2.getText();
+
+			System.out.println(key);
+			System.out.println(value);
+
+			if (rbtree.keySearch(key, value)) {
 				view.displayTree();
 				view.setStatus(key + " is already in the tree");
 			} else {
-				rbtree.BSTInsert(); // insert the new key to the RB tree
+				rbtree.insert(key, value); // insert the new key to the RB tree
 				view.displayTree();
 				view.setStatus(key + " has been placed in the tree");
 			}
 		});
 	}
 
-	public void deleteButton(Button delButt, TextField tf) {
+	public void deleteButton(Button delButt, TextField tf, TextField tf2) {
 		delButt.setOnMouseClicked(e -> {
+			tf.setPromptText("Key");
+			tf2.setPromptText("Value");
+
 			int key = Integer.parseInt(tf.getText());
-			String val = "65";
-			if (rbtree.keySearch(key, val)) {
+			String value = tf2.getText();
+
+			if (rbtree.keySearch(key, value)) {
 				view.displayTree();
 				view.setStatus(key + " is not in the tree");
 			} else {
@@ -124,8 +136,6 @@ public class GUI extends Application {
 
 		});
 	}
-	
-	
 
 	public static void main(String[] args) {
 		launch(args);

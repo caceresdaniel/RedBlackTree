@@ -5,40 +5,39 @@ public class RBTree<T extends Comparable<T>, K> {
 	private final Node<T, K> NIL = null;
 
 	public Node<T, K> getRoot() {
-		
+
 		return root;
 	}
 
 	public RBTree() {
 
 	}
-	//Finds the grandparent of any given node 
-	//remember to check for cases where a node might not have a grandparent
-	public void findGrandPa() {
+
+	// insert a new node
+	public void insert(T key, K value) {
 
 	}
 
-	//same as GPA
+	public void BSTInsert(T key, K value) {
+
+	}
+
+	// Finds the grandparent of any given node
+	// remember to check for cases where a node might not have a grandparent
+	public void findGrandPa(Node<T, K> node) {
+
+	}
+
+	// same as GPA
 	public void findUncle() {
 
 	}
 
-	
 	public void leftRotate() {
 
 	}
 
 	public void rightRotate() {
-
-	}
-	
-	//insert a new node
-	public void insert() {
-		
-	}
-	
-	
-	public void BSTInsert() {
 
 	}
 
@@ -67,13 +66,16 @@ public class RBTree<T extends Comparable<T>, K> {
 	}
 
 	public boolean keySearch(T key, K value) {
-		
+
 		Node<T, K> newNode = new Node<T, K>(key, value, 'B');
 		Node<T, K> test = new Node<T, K>(key, value, 'R');
-		if((Integer)key == 5){
-		root = newNode;}
-		if((Integer)key ==  6){
-		root.left = test;}
+		if ((Integer) key == 5) {
+			root = newNode;
+		}
+		if ((Integer) key == 6) {
+			root.left = test;
+		}
+		System.out.println(root.toString());
 		return false;
 	}
 }
