@@ -1,24 +1,32 @@
 .circle {
-	-fx-background-color: #ffffff;
+	-fx-background-color: #000000;
 	-fx-border-color: #000000;
+	-fx-text-fill: #ffffff;
 }
 
 .textBox {
-	
+	-fx-background-color: #000000;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: #000000;
 }
 
 .button {
-	
+	-fx-background-color: #000000;
+	-fx-border-color: #ffffff;
+	-fx-text-fill: #ffffff;
 }
 
 .label {
-	
+	-fx-text-fill: #ffffff;
 }
 
 .pane {
-	
+	-fx-pref-height: 1000.0;
+	-fx-pref-width: 900.0;
+	-fx-background-color: #000000;
 }
 
 .hbox {
-	
+	-fx-background-color: #000000;
+	-fx-alignment: center;
 }

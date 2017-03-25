@@ -27,8 +27,10 @@ public class GUI extends Application {
 			Button delButt = new Button("Delete");
 			delButt.getStyleClass().add("button");
 			insertButt.getStyleClass().add("button");
+			
 			Label lbl = new Label("Enter a Key: ");
 			lbl.getStyleClass().add("label");
+			
 
 			HBox hb = new HBox();
 			hb.getStyleClass().add("hbox");
@@ -36,11 +38,14 @@ public class GUI extends Application {
 
 			bp.setCenter(view);
 			bp.setBottom(hb);
+			
+			insertButton(insertButt, tf);
+			deleteButton(delButt, tf);
 
-			Scene sc = new Scene(bp, 400, 400);
+			Scene sc = new Scene(bp);
 			sc.getStylesheets().add("style/styles.css");
-
-			primaryStage.setTitle("Red Black Tree");
+			
+			primaryStage.setTitle("LAB 4");
 			primaryStage.setScene(sc);
 			primaryStage.show();
 		} catch (Exception e) {
@@ -49,10 +54,10 @@ public class GUI extends Application {
 	}
 
 	public void insertButton(Button insertButt, TextField tf) {
-		insertButt.setOnMouseClicked(e -> {
+		insertButt.setOnAction(e -> {
 			int key = Integer.parseInt(tf.getText());
-
-			if (rbtree.keySearch(key)) {
+			String val = "65";
+			if (rbtree.keySearch(key, val)) {
 				view.displayTree();
 				view.setStatus(key + " is already in the tree");
 			} else {
@@ -64,10 +69,10 @@ public class GUI extends Application {
 	}
 
 	public void deleteButton(Button delButt, TextField tf) {
-		delButt.setOnMouseClicked(e -> {
+		delButt.setOnAction(e -> {
 			int key = Integer.parseInt(tf.getText());
-
-			if (rbtree.keySearch(key)) {
+			String val = "65";
+			if (rbtree.keySearch(key, val)) {
 				view.displayTree();
 				view.setStatus(key + " is not in the tree");
 			} else {
@@ -79,6 +84,8 @@ public class GUI extends Application {
 
 		});
 	}
+	
+	
 
 	public static void main(String[] args) {
 		launch(args);
