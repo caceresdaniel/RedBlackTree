@@ -15,10 +15,36 @@ public class RBTree<T extends Comparable<T>, K> {
 
 	// insert a new node
 	public void insert(T key, K value) {
+		Node<T, K> newNode = new Node<T, K>(key, value, 'B');
+
+		BSTInsert(newNode, key);
 
 	}
 
-	public void BSTInsert(T key, K value) {
+	public boolean BSTInsert(Node<T, K> newNode, T key) {
+		if (root == null) {
+			root = newNode;
+		} else {
+			Node<T, K> parent = root.parent;
+			Node<T, K> current = root;
+			while (current != null) {
+				if (key.compareTo(current.key) < 0) {
+					parent = current;
+					current = current.left;
+				} else if (key.compareTo(current.key) > 0) {
+					parent = current;
+					current = current.right;
+				} else
+					return false;
+			}
+			root.parent = parent;
+			if(key.compareTo(parent.key)< 0){
+				parent.left = newNode;
+			} else{
+				parent.right = newNode;
+			}
+		}
+		return true;
 
 	}
 
@@ -67,15 +93,15 @@ public class RBTree<T extends Comparable<T>, K> {
 
 	public boolean keySearch(T key, K value) {
 
-		Node<T, K> newNode = new Node<T, K>(key, value, 'B');
-		Node<T, K> test = new Node<T, K>(key, value, 'R');
-		if ((Integer) key == 5) {
-			root = newNode;
-		}
-		if ((Integer) key == 6) {
-			root.left = test;
-		}
-		System.out.println(root.toString());
+		// Node<T, K> newNode = new Node<T, K>(key, value, 'B');
+		// Node<T, K> test = new Node<T, K>(key, value, 'R');
+		// if ((Integer) key == 5) {
+		// root = newNode;
+		// }
+		// if ((Integer) key == 6) {
+		// root.left = test;
+		// }
+		// System.out.println(root.toString());
 		return false;
 	}
 }

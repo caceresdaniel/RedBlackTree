@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 public class RBTView extends Pane {
 
 	private RBTree<Integer, String> rbtree = new RBTree<>();
-	private double radius = 25;
+	private double radius = 20;
 	private double vGap = 50;
 
 	public RBTView(RBTree<Integer, String> rbtree) {
@@ -39,10 +39,10 @@ public class RBTView extends Pane {
 		}
 
 		if (root.right != null) {
-			Line line = new Line(x + hGap, y - vGap, x, y);
+			Line line = new Line(x + hGap, y + vGap, x, y);
 			line.setStroke(Color.WHITE);
 			getChildren().add(line);
-			displayTree(root.right, x + hGap, y - vGap, hGap / 2);
+			displayTree(root.right, x + hGap, y + vGap, hGap / 2);
 		}
 		
 		Circle circle = new Circle(x, y, radius);
