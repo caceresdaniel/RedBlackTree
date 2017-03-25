@@ -47,6 +47,8 @@ public class GUI extends Application {
 			vb.getStyleClass().add("vbox");
 			vb.getChildren().addAll(hb1, hb2);
 			
+			allTheButtons(hb2);
+			
 			HBox hb3 = new HBox();
 			hb3.getStyleClass().add("hbox");
 			hb3.getChildren().addAll(lbl, tf, insertButt, delButt);
@@ -69,7 +71,22 @@ public class GUI extends Application {
 		}
 	}
 	
-	public void allTheButtons(){
+	public void allTheButtons(HBox hb){
+		
+		Button gpaButt = new Button("Find GrandPa");
+		gpaButt.getStyleClass().add("button");
+		Button uncButt = new Button("Find Uncle");
+		uncButt.getStyleClass().add("button");
+		Button preButt = new Button("Preorder Traversal");
+		preButt.getStyleClass().add("button");
+		Button inButt = new Button("Inorder Traversal");
+		inButt.getStyleClass().add("button");
+		Button postButt = new Button("Postorder Traversal");
+		postButt.getStyleClass().add("button");
+		Button breButt = new Button("BFS Traversal");
+		breButt.getStyleClass().add("button");
+		
+		hb.getChildren().addAll(gpaButt, uncButt, preButt, inButt, postButt, breButt);
 		
 	}
 	
@@ -77,7 +94,7 @@ public class GUI extends Application {
 	
 
 	public void insertButton(Button insertButt, TextField tf) {
-		insertButt.setOnAction(e -> {
+		insertButt.setOnMouseClicked(e -> {
 			int key = Integer.parseInt(tf.getText());
 			String val = "65";
 			if (rbtree.keySearch(key, val)) {
@@ -92,7 +109,7 @@ public class GUI extends Application {
 	}
 
 	public void deleteButton(Button delButt, TextField tf) {
-		delButt.setOnAction(e -> {
+		delButt.setOnMouseClicked(e -> {
 			int key = Integer.parseInt(tf.getText());
 			String val = "65";
 			if (rbtree.keySearch(key, val)) {

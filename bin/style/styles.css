@@ -21,9 +21,10 @@
 }
 
 .pane {
-	-fx-pref-height: 1000.0;
-	-fx-pref-width: 900.0;
+	-fx-pref-height: 900;
+	-fx-pref-width: 850;
 	-fx-background-color: #000000;
+	-fx-background-image: url("tree.png"); 
 }
 
 .hbox {
