@@ -14,6 +14,9 @@ public class GUI extends Application {
 	RBTree<Integer, String> rbtree = new RBTree<>();
 	RBTView view = new RBTView(rbtree);
 
+	/***************************************************************************/
+	//Most of the GUI code 
+	/***************************************************************************/
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -74,6 +77,10 @@ public class GUI extends Application {
 		}
 	}
 
+	/***************************************************************************/
+	// Made a seperate method for all the buttons that will be in the top row
+	// these buttons handle their respective methods
+	/***************************************************************************/
 	public void allTheButtons(HBox hb) {
 
 		Button gpaButt = new Button("Find GrandPa");
@@ -93,29 +100,36 @@ public class GUI extends Application {
 
 	}
 
+	/***************************************************************************/
+	// seperate method that applies a action handler to the insert button
+	// which checks if they key has been used before or not
+	// if the key has been used it just displays the red black tree with no changes
+	// if the key has not been used the new node is then inserted into the 
+	// red black tree
+	/***************************************************************************/
 	public void insertButton(Button insertButt, TextField tf, TextField tf2) {
 		insertButt.setOnMouseClicked(e -> {
-			tf.setPromptText("Key");
+			tf.setPromptText("Key");  // adding this so user knows where to enter key and value
 			tf2.setPromptText("Value");
 
-			int key = Integer.parseInt(tf.getText());
+			int key = Integer.parseInt(tf.getText());  // grabs the input from the first text field which is the key
+			String value = tf2.getText();  //grabs the input for the second text field which is the value
 
-			String value = tf2.getText();
-
-			System.out.println(key);
-			System.out.println(value);
-
-			if (rbtree.keySearch(key, value)) {
+			if (rbtree.keySearch(key)) {
 				view.displayTree();
 				view.setStatus(key + " is already in the tree");
 			} else {
-				rbtree.insert(key, value); // insert the new key to the RB tree
-				view.displayTree();
+				rbtree.insert(key, value); // calls methods to insert the new key to the RB tree
+				view.displayTree();  //displays the red black tree 
 				view.setStatus(key + " has been placed in the tree");
 			}
 		});
 	}
 
+	/***************************************************************************/
+	// Same as previous method but in this case it deletes the key from the 
+	// Red black tree
+	/***************************************************************************/
 	public void deleteButton(Button delButt, TextField tf, TextField tf2) {
 		delButt.setOnMouseClicked(e -> {
 			tf.setPromptText("Key");
@@ -124,7 +138,7 @@ public class GUI extends Application {
 			int key = Integer.parseInt(tf.getText());
 			String value = tf2.getText();
 
-			if (rbtree.keySearch(key, value)) {
+			if (rbtree.keySearch(key)) {
 				view.displayTree();
 				view.setStatus(key + " is not in the tree");
 			} else {

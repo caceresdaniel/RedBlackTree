@@ -1,5 +1,8 @@
 package application;
 
+/***************************************************************************/
+// Nothing much to say about this class, self explanitory
+/***************************************************************************/
 public class Node<T extends Comparable<T>, K> {
 	protected T key;
 	protected K value;
