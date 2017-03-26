@@ -136,7 +136,6 @@ public class GUI extends Application {
 			tf2.setPromptText("Value");
 
 			int key = Integer.parseInt(tf.getText());
-			String value = tf2.getText();
 
 			if (rbtree.keySearch(key)) {
 				view.displayTree();

@@ -15,20 +15,22 @@ public class RBTree<T extends Comparable<T>, K> {
 	// Empty Constructor
 	/***************************************************************************/
 	public RBTree() {
-
 	}
 	
 	/***************************************************************************/
 	// Method that is called in the GUI that then calls other methods to insert
 	// the node correctly in the Red Black Tree
+	// first creates the new node with the information given
+	// it then calls the binary search tree insert method to insert the node
+	// and lastly it calls the check method to check if it meets the 
+	// proper requirements of a Red Black Tree
 	/***************************************************************************/
 	public void insert(T key, K value) {
 		Node<T, K> newNode = new Node<T, K>(key, value, 'R'); // create the new
 																// node
-
 		BSTInsert(newNode, key); // calls method to insert the new node into the
 									// Red Black Tree
-
+		check(newNode);
 	}
 
 	/***************************************************************************/
@@ -81,37 +83,75 @@ public class RBTree<T extends Comparable<T>, K> {
 	}
 	
 	/***************************************************************************/
+	/***************************************************************************/
+	public boolean check(Node<T, K> node) {
+		Node<T, K > uncle = findUncle(node);
+		Node<T, K> grandpa = findGrandPa(node);
+		Node<T, K> parent = node.parent;
+		
+		if(node.equals(root)){
+			node.color = 'B';
+			return true;
+		}
+		
+		if(node.parent.color == 'B'){
+			return true;
+		}
+		
+		if(parent.color == 'R' && uncle.color == 'R'){
+			parent.color = 'B';
+			uncle.color = 'B';
+			grandpa.color = 'R';
+			check(grandpa);
+			return true;
+		}
+		
+		if(parent.color == 'R' && uncle.color == 'B'){
+			if(parent.right.key.compareTo(node.key) == 0 && grandpa.left.key.compareTo(parent.key) == 0){
+				leftRotate(parent, node);
+				node = parent;
+			}
+			if(parent.left.key.compareTo(node.key) == 0 && grandpa.right.key.compareTo(parent.key) == 0){
+				rightRotate(parent, node);
+				node = parent;
+			}
+		}
+		
+		
+		
+		
+		return false;
+	}
+	
+	/***************************************************************************/
 	// Finds the grandparent of any given node
 	// remember to check for cases where a node might not have a grandparent
 	/***************************************************************************/
-	public void findGrandPa(Node<T, K> node) {
-
+	public Node<T, K> findGrandPa(Node<T, K> node) {
+		
+		return node;
 	}
 	
 	/***************************************************************************/
 	// same as GPA
 	/***************************************************************************/
-	public void findUncle() {
+	public Node<T, K> findUncle(Node<T, K> node) {
+
+		return node;
+	}
+
+	/***************************************************************************/
+	/***************************************************************************/
+	public void leftRotate(Node<T, K> root, Node<T, K> pivot) {
 
 	}
 
 	/***************************************************************************/
 	/***************************************************************************/
-	public void leftRotate() {
+	public void rightRotate(Node<T, K> root, Node<T, K> pivot) {
 
 	}
 
-	/***************************************************************************/
-	/***************************************************************************/
-	public void rightRotate() {
-
-	}
-
-	/***************************************************************************/
-	/***************************************************************************/
-	public void check() {
-
-	}
 
 	/***************************************************************************/
 	/***************************************************************************/
