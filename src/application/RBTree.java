@@ -8,6 +8,7 @@ import java.util.Stack;
 public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	protected Node<T, K> root;
 	protected final Node<T, K> NIL = new Node<T, K>(null, null, 'B');
+	protected int size =0;
 	
 	/***************************************************************************/
 	// Method that returns the root....
@@ -36,9 +37,6 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 		BSTInsert(newNode, key); // calls method to insert the new node into the
 									// Red Black Tree
 		check(newNode);
-		
-		
-		
 	}
 
 	/***************************************************************************/
@@ -86,6 +84,7 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 												// right node
 			}
 		}
+		size++;
 		return true; // returns true if the new node is added
 
 	}
@@ -105,10 +104,10 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			return true;
 		}
 
-		if (node.parent.color == 'B')
+		if (parent.color == 'B' && !node.equals(NIL))
 			return true;
 
-		if (parent.color == 'R' && uncle.color == 'R') {
+		if (parent.color == 'R' && uncle.color == 'R' && !node.equals(NIL)) {
 			parent.color = 'B';
 			uncle.color = 'B';
 			grandpa.color = 'R';
@@ -116,7 +115,7 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			return true;
 		}
 
-		if (parent.color == 'R' && uncle.color == 'B') {
+		if (parent.color == 'R' && uncle.color == 'B' && !node.equals(NIL)) {
 			if (parent.right.equals(node) && grandpa.left.equals(parent)) {
 				leftRotate(parent, node);
 				node = parent;
@@ -127,7 +126,7 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			}
 		}
 
-		if (parent.color == 'R' && uncle.color == 'B') {
+		if (parent.color == 'R' && uncle.color == 'B' && !node.equals(NIL)) {
 			if (parent.left.equals(node) && grandpa.left.equals(parent)) {
 				parent.color = 'B';
 				grandpa.color = 'R';
@@ -158,7 +157,7 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	/***************************************************************************/
 	private Node<T, K> findUncle(Node<T, K> node) {
 		if (node.parent != null && node.parent.parent != null) {
-			if (node.parent.parent.left.key.compareTo(node.parent.key) == 0)
+			if (node.parent.parent.left.equals(node.parent))
 				return node.parent.parent.right;
 			else
 				return node.parent.parent.left;
@@ -169,18 +168,16 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	/***************************************************************************/
 	/***************************************************************************/
 	private void leftRotate(Node<T, K> root, Node<T, K> pivot) {
-//		root.right = pivot.left;
-//		pivot.left = root;
 		root = pivot.right;
 		pivot.right = root.left;
-		if(!root.left.equals(NIL))
+		if (!root.left.equals(NIL))
 			root.left.parent = pivot;
 		root.parent = pivot.parent;
-		if(pivot.parent.equals(NIL))
+		if (pivot.parent.equals(NIL))
 			this.root = root;
-		else if(pivot.parent.right.key.compareTo(root.key) == 0)
+		else if (pivot.parent.right.equals(root))
 			pivot.parent.left = root;
-		else 
+		else
 			pivot.parent.right = root;
 		root.left = pivot;
 		pivot.parent = root;
@@ -189,27 +186,30 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	/***************************************************************************/
 	/***************************************************************************/
 	private void rightRotate(Node<T, K> root, Node<T, K> pivot) {
+
 		root = pivot.left;
 		pivot.left = root.right;
-		if(!root.right.equals(NIL))
+		if (!root.right.equals(NIL))
 			root.right.parent = pivot;
 		root.parent = pivot.parent;
-		if(pivot.parent.equals(NIL))
+		if (pivot.parent.equals(NIL))
 			this.root = root;
-		else if(pivot.parent.left.key.compareTo(root.key) == 0)
+		else if (pivot.parent.left.equals(root))
 			pivot.parent.right = root;
-		else 
+		else
 			pivot.parent.left = root;
 		root.right = pivot;
 		pivot.parent = root;
+		
 	}
 
 
 	/***************************************************************************/
+	// preorder traversal of the red black tree
 	/***************************************************************************/
-	public void preorder() {
+	public ArrayList<Node<T, K>> preorder() {
 		ArrayList<Node<T, K>> preOrderList = new ArrayList<>();
-		Node<T, K> current = root;
+		Node<T, K> current = null;
 		
 		if(root != null)
 			push(root);
@@ -221,45 +221,44 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			if(current.left != null)
 				push(current.left);
 		}
-		for(int i = 0; i < preOrderList.size(); i++)
-			System.out.println(preOrderList.get(i).toString());
+		return preOrderList;
 	}
 
 	/***************************************************************************/
+	// inorder traversal of the red black tree
 	/***************************************************************************/
-	public void inorder() {
+	public ArrayList<Node<T, K>> inorder() {
 		ArrayList<Node<T, K>> inOrderList = new ArrayList<>();
 		Node<T, K> current = root;
-		
-		while(!empty() || current != null){
-			if(current != null){
+
+		while (!empty() || current != null) {
+			if (current != null) {
 				push(current);
-				System.out.println(current);
-			}else{
+				current = current.left;
+			} else {
 				current = pop();
 				inOrderList.add(current);
 				current = current.right;
 			}
 		}
-		
-		for(int i = 0; i < inOrderList.size(); i++)
-			System.out.println(inOrderList.get(i).toString());
-		
+		return inOrderList;
 	}
 
 	/***************************************************************************/
+	// method that does postorder traversal of the RedBlackTree
 	/***************************************************************************/
-	public void postorder() {
+	public ArrayList<Node<T, K>> postorder() {
 		ArrayList<Node<T, K>> postOrderList = new ArrayList<>();
 		ArrayList<Node<T, K>> visited = new ArrayList<>();
 		Node<T, K> current = root;
-		
+	
 		push(root);
 		while(!empty()){
 			current = peek();
-			if(current.left != null && !visited(current.left, visited))
+			if(current.left != null && !visited.contains(current.left))
 				push(current.left);
-			else if(current.right != null && !visited(current.right, visited))
+			// the problem here is because of the NIl node, it says its already been visited even though it has not 
+			else if(current.right != null && !visited.contains(current.right))
 				push(current.right);
 			else{
 				postOrderList.add(current);
@@ -267,20 +266,15 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 				pop();
 			}
 		}
-	}
-	
-	/***************************************************************************/
-	// method that checks to see if the current node has been visited already or not
-	/***************************************************************************/
-	private boolean visited(Node<T, K> node, ArrayList<Node<T, K>> visited) {
-		for (int i = 0; i < visited.size(); i++) {
-			if (visited.get(i).key.equals(node.key)) 
-				return true;
-		}
-		return false;
+		for(int i = 0; i < postOrderList.size(); i++)
+			System.out.println(postOrderList.get(i).toString());
+		
+		
+		return postOrderList;
 	}
 
 	/***************************************************************************/
+	// BFS of the Red Black Tree
 	/***************************************************************************/
 	public void breadthFirstSearch() {
 		ArrayList<Node<T, K>> bfsList = new ArrayList<>();
