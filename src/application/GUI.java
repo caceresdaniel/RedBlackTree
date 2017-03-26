@@ -15,7 +15,7 @@ public class GUI extends Application {
 	RBTView view = new RBTView(rbtree);
 
 	/***************************************************************************/
-	//Most of the GUI code 
+	//Most of the GUI code, creating buttons and panes and the like
 	/***************************************************************************/
 	@Override
 	public void start(Stage primaryStage) {
@@ -78,11 +78,6 @@ public class GUI extends Application {
 	// these buttons handle their respective methods
 	/***************************************************************************/
 	private void allTheButtons(HBox hb) {
-
-//		Button gpaButt = new Button("Find GrandPa");
-//		gpaButt.getStyleClass().add("button");
-//		Button uncButt = new Button("Find Uncle");
-//		uncButt.getStyleClass().add("button");
 		Button preButt = new Button("Preorder Traversal");
 		preButt.getStyleClass().add("button");
 		Button inButt = new Button("Inorder Traversal");
@@ -92,9 +87,10 @@ public class GUI extends Application {
 		Button breButt = new Button("BFS Traversal");
 		breButt.getStyleClass().add("button");
 
+		// Adding the buttons to the HBox
 		hb.getChildren().addAll(preButt, inButt, postButt, breButt);
 
-		// calling the methods that add eventhandlers to the buttons
+		// calling the methods that add event handlers corresponding to each button
 		preButton(preButt);
 		inButton(inButt);
 		postButton(postButt);
@@ -143,14 +139,10 @@ public class GUI extends Application {
 			int key = Integer.parseInt(tf.getText());  // grabs the input from the first text field which is the key
 			String value = tf2.getText();  //grabs the input for the second text field which is the value
 
-			if (rbtree.keySearch(key)) {
-				view.displayTree();
-				view.setStatus(key + " is already in the tree");
-			} else {
 				rbtree.insert(key, value); // calls methods to insert the new key to the RB tree
 				view.displayTree();  //displays the red black tree 
 				view.setStatus(key + " has been placed in the tree");
-			}
+			
 		});
 	}
 

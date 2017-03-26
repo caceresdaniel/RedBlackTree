@@ -8,19 +8,12 @@ import java.util.Stack;
 public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	protected Node<T, K> root;
 	protected final Node<T, K> NIL = new Node<T, K>(null, null, 'B');
-	protected int size =0;
 	
 	/***************************************************************************/
 	// Method that returns the root....
 	/***************************************************************************/
 	public Node<T, K> getRoot() {
 		return root;
-	}
-	
-	/***************************************************************************/
-	// Empty Constructor
-	/***************************************************************************/
-	public RBTree() {
 	}
 	
 	/***************************************************************************/
@@ -84,11 +77,9 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 												// right node
 			}
 		}
-		size++;
 		return true; // returns true if the new node is added
-
 	}
-	
+
 	/***************************************************************************/
 	// Everytime a node is added the Red Black Tree is checked if it meets
 	// the requirements of a RBT, if it does not it is fixed accordingly 
@@ -99,15 +90,18 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 		Node<T, K> grandpa = findGrandPa(node);
 		Node<T, K> parent = node.parent;
 
+		// Case 1
 		if (node.equals(root)) {
 			node.color = 'B';
 			return true;
 		}
 
-		if (parent.color == 'B' && !node.equals(NIL))
+		// Case 2
+		if (parent.color == 'B')
 			return true;
 
-		if (parent.color == 'R' && uncle.color == 'R' && !node.equals(NIL)) {
+		// Case 3
+		if (parent.color == 'R' && uncle.color == 'R') {
 			parent.color = 'B';
 			uncle.color = 'B';
 			grandpa.color = 'R';
@@ -115,7 +109,8 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			return true;
 		}
 
-		if (parent.color == 'R' && uncle.color == 'B' && !node.equals(NIL)) {
+		// Case 4
+		if (parent.color == 'R' && uncle.color == 'B') {
 			if (parent.right.equals(node) && grandpa.left.equals(parent)) {
 				leftRotate(parent, node);
 				node = parent;
@@ -126,7 +121,8 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			}
 		}
 
-		if (parent.color == 'R' && uncle.color == 'B' && !node.equals(NIL)) {
+		// Case 5
+		if (parent.color == 'R' && uncle.color == 'B') {
 			if (parent.left.equals(node) && grandpa.left.equals(parent)) {
 				parent.color = 'B';
 				grandpa.color = 'R';
@@ -138,55 +134,35 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 				leftRotate(grandpa, parent);
 			}
 		}
-
 		return false;
 	}
-	
-	/***************************************************************************/
-	// Finds the grandparent of any given node
-	// remember to check for cases where a node might not have a grandparent
-	/***************************************************************************/
-	private Node<T, K> findGrandPa(Node<T, K> node) {
-		if (node.parent != null && node.parent.parent != null)
-			return node = node.parent.parent;
-		return node;
-	}
-	
-	/***************************************************************************/
-	// same as GPA
-	/***************************************************************************/
-	private Node<T, K> findUncle(Node<T, K> node) {
-		if (node.parent != null && node.parent.parent != null) {
-			if (node.parent.parent.left.equals(node.parent))
-				return node.parent.parent.right;
-			else
-				return node.parent.parent.left;
-		}
-		return node;
-	}
 
 	/***************************************************************************/
+	// does a left rotate depending on the nodes that are passed
+	// changes pointer structure to fix the ordering of nodes
+	// assumes 
 	/***************************************************************************/
 	private void leftRotate(Node<T, K> root, Node<T, K> pivot) {
 		root = pivot.right;
-		pivot.right = root.left;
-		if (!root.left.equals(NIL))
+		pivot.right = root.left;  // changing roots left subtree to pivots right subtree
+		if (!root.left.equals(NIL)) // if roots left child is not nil parent gets changed to pivot
 			root.left.parent = pivot;
-		root.parent = pivot.parent;
+		root.parent = pivot.parent;  // changing pivots parent to roots parent
 		if (pivot.parent.equals(NIL))
 			this.root = root;
-		else if (pivot.parent.right.equals(root))
-			pivot.parent.left = root;
+		else if (pivot.parent.right.equals(root)) // checking to see if the node is on the right or left side 
+			pivot.parent.left = root;  // if its on the right side the left node is now the root 
 		else
-			pivot.parent.right = root;
-		root.left = pivot;
-		pivot.parent = root;
+			pivot.parent.right = root;  // otherwise the node is added to right side since it is on left side
+		root.left = pivot; // pivot is now on roots left
+		pivot.parent = root;  // changing pivots parent to root
 	}
 
 	/***************************************************************************/
+	// does a right rotate depending on the nodes that are passed
+	// same as above but done for the opposite side
 	/***************************************************************************/
 	private void rightRotate(Node<T, K> root, Node<T, K> pivot) {
-
 		root = pivot.left;
 		pivot.left = root.right;
 		if (!root.right.equals(NIL))
@@ -200,32 +176,61 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 			pivot.parent.left = root;
 		root.right = pivot;
 		pivot.parent = root;
-		
 	}
 
-
 	/***************************************************************************/
-	// preorder traversal of the red black tree
+	// Finds the grandparent of any given node by first checking if it has a parent node
+	// if it has a parent node then it checks to see if that parent node has a parent node
+	// if that checks out then it returns it since the parent of a parent is the 
+	// grandpa
+	/***************************************************************************/
+	private Node<T, K> findGrandPa(Node<T, K> node) {
+		if (node.parent != null && node.parent.parent != null)
+			return node = node.parent.parent;
+		return node;
+	}
+	
+	/***************************************************************************/
+	// checks to see if the node has a parent if the node does have a parent then 
+	// it checks if that parent has a parent in order to find the grandpa
+	// if it does have a grand pa then it checks wether it is the right or left child
+	// depending on whatever child it is the uncle is on the other side so that 
+	// node is then returned 
+	/***************************************************************************/
+	private Node<T, K> findUncle(Node<T, K> node) {
+		if (node.parent != null && node.parent.parent != null) {
+			if (node.parent.parent.left.equals(node.parent))
+				return node.parent.parent.right;
+			else
+				return node.parent.parent.left;
+		}
+		return node;
+	}
+	
+	/***************************************************************************/
+	// preorder traversal of the red black tree checks current left then right
+	// using a stack to properly traverse through the tree
 	/***************************************************************************/
 	public ArrayList<Node<T, K>> preorder() {
 		ArrayList<Node<T, K>> preOrderList = new ArrayList<>();
 		Node<T, K> current = null;
-		
-		if(root != null)
+
+		if (root != null)
 			push(root);
-		while(!empty()){
+		while (!empty()) {
 			current = pop();
 			preOrderList.add(current);
-			if(current.right != null)
+			if (current.right != null)
 				push(current.right);
-			if(current.left != null)
+			if (current.left != null)
 				push(current.left);
 		}
 		return preOrderList;
 	}
 
 	/***************************************************************************/
-	// inorder traversal of the red black tree
+	// inorder traversal of the red black tree checks left current thenr ight
+	// uses a stack to properly traverse the tree
 	/***************************************************************************/
 	public ArrayList<Node<T, K>> inorder() {
 		ArrayList<Node<T, K>> inOrderList = new ArrayList<>();
@@ -245,31 +250,30 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	}
 
 	/***************************************************************************/
-	// method that does postorder traversal of the RedBlackTree
+	// method that does postorder traversal of the RedBlackTree 
+	// in the order of left right current, uses a stack and a list of already visited
+	// nodes, in order to properly traverse through the tree
 	/***************************************************************************/
 	public ArrayList<Node<T, K>> postorder() {
 		ArrayList<Node<T, K>> postOrderList = new ArrayList<>();
 		ArrayList<Node<T, K>> visited = new ArrayList<>();
 		Node<T, K> current = root;
-	
+
 		push(root);
-		while(!empty()){
+		while (!empty()) {
 			current = peek();
-			if(current.left != null && !visited.contains(current.left))
+			if (current.left != null && !visited.contains(current.left))
 				push(current.left);
-			// the problem here is because of the NIl node, it says its already been visited even though it has not 
-			else if(current.right != null && !visited.contains(current.right))
+			// the problem here is because of the NIl node, it says its already
+			// been visited even though it has not
+			else if (current.right != null && !visited.contains(current.right))
 				push(current.right);
-			else{
+			else {
 				postOrderList.add(current);
 				visited.add(current);
 				pop();
 			}
 		}
-		for(int i = 0; i < postOrderList.size(); i++)
-			System.out.println(postOrderList.get(i).toString());
-		
-		
 		return postOrderList;
 	}
 
@@ -279,12 +283,5 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	public void breadthFirstSearch() {
 		ArrayList<Node<T, K>> bfsList = new ArrayList<>();
 		Node<T, K> current = null;
-	}
-
-	/***************************************************************************/
-	// Currently just a filler method
-	/***************************************************************************/
-	public boolean keySearch(T key) {
-		return false;
 	}
 }

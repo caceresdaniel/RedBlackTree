@@ -63,6 +63,7 @@ public class RBTView extends Pane {
 		}
 
 		Circle circle = new Circle(x, y, radius);
+		
 		// this code was added to show the NIL nodes
 		if (root.equals(rbtree.NIL)) {
 			Text txt = new Text(x - 10, y + 4, "NIL");

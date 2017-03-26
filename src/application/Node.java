@@ -16,7 +16,7 @@ public class Node<T extends Comparable<T>, K> {
 		this.value = value;
 		this.color = color;
 	}
-	
+
 	public String toString() {
 		return "key is: " + key + " value is: " + value + " color is: " + color;
 	}
