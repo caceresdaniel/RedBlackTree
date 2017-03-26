@@ -31,6 +31,9 @@ public class RBTree<T extends Comparable<T>, K> {
 		BSTInsert(newNode, key); // calls method to insert the new node into the
 									// Red Black Tree
 		check(newNode);
+		
+		
+		
 	}
 
 	/***************************************************************************/
@@ -154,7 +157,6 @@ public class RBTree<T extends Comparable<T>, K> {
 				return node.parent.parent.right;
 			else
 				return node.parent.parent.left;
-
 		}
 		return node;
 	}
@@ -162,6 +164,8 @@ public class RBTree<T extends Comparable<T>, K> {
 	/***************************************************************************/
 	/***************************************************************************/
 	public void leftRotate(Node<T, K> root, Node<T, K> pivot) {
+//		root.right = pivot.left;
+//		pivot.left = root;
 		root = pivot.right;
 		pivot.right = root.left;
 		if(!root.left.equals(NIL))
@@ -180,7 +184,19 @@ public class RBTree<T extends Comparable<T>, K> {
 	/***************************************************************************/
 	/***************************************************************************/
 	public void rightRotate(Node<T, K> root, Node<T, K> pivot) {
-
+		root = pivot.left;
+		pivot.left = root.right;
+		if(!root.right.equals(NIL))
+			root.right.parent = pivot;
+		root.parent = pivot.parent;
+		if(pivot.parent.equals(NIL))
+			this.root = root;
+		else if(pivot.parent.left.key.compareTo(root.key) == 0)
+			pivot.parent.right = root;
+		else 
+			pivot.parent.left = root;
+		root.right = pivot;
+		pivot.parent = root;
 	}
 
 
@@ -206,13 +222,6 @@ public class RBTree<T extends Comparable<T>, K> {
 	/***************************************************************************/
 	public void breadthFirstSearch() {
 
-	}
-
-	/***************************************************************************/
-	// this is a filler method for now
-	/***************************************************************************/
-	public void deleteNode() {
-		// this is a filler method for now
 	}
 
 	/***************************************************************************/
