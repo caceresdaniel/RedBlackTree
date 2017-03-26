@@ -33,9 +33,6 @@ public class GUI extends Application {
 			Button insertButt = new Button("Insert");
 			insertButt.getStyleClass().add("button");
 
-			Button delButt = new Button("Delete");
-			delButt.getStyleClass().add("button");
-
 			Label title = new Label("Red Black Tree");
 			title.getStyleClass().add("mainTitle");
 
@@ -57,14 +54,13 @@ public class GUI extends Application {
 
 			HBox hb3 = new HBox();
 			hb3.getStyleClass().add("hbox");
-			hb3.getChildren().addAll(lbl, tf, tf2, insertButt, delButt);
+			hb3.getChildren().addAll(lbl, tf, tf2, insertButt);
 
 			bp.setTop(vb);
 			bp.setCenter(view);
 			bp.setBottom(hb3);
 
 			insertButton(insertButt, tf, tf2);
-			deleteButton(delButt, tf, tf2);
 
 			Scene sc = new Scene(bp);
 			sc.getStylesheets().add("style/styles.css");
@@ -81,12 +77,12 @@ public class GUI extends Application {
 	// Made a seperate method for all the buttons that will be in the top row
 	// these buttons handle their respective methods
 	/***************************************************************************/
-	public void allTheButtons(HBox hb) {
+	private void allTheButtons(HBox hb) {
 
-		Button gpaButt = new Button("Find GrandPa");
-		gpaButt.getStyleClass().add("button");
-		Button uncButt = new Button("Find Uncle");
-		uncButt.getStyleClass().add("button");
+//		Button gpaButt = new Button("Find GrandPa");
+//		gpaButt.getStyleClass().add("button");
+//		Button uncButt = new Button("Find Uncle");
+//		uncButt.getStyleClass().add("button");
 		Button preButt = new Button("Preorder Traversal");
 		preButt.getStyleClass().add("button");
 		Button inButt = new Button("Inorder Traversal");
@@ -96,10 +92,42 @@ public class GUI extends Application {
 		Button breButt = new Button("BFS Traversal");
 		breButt.getStyleClass().add("button");
 
-		hb.getChildren().addAll(gpaButt, uncButt, preButt, inButt, postButt, breButt);
+		hb.getChildren().addAll(preButt, inButt, postButt, breButt);
 
+		// calling the methods that add eventhandlers to the buttons
+		preButton(preButt);
+		inButton(inButt);
+		postButton(postButt);
 	}
 
+	/***************************************************************************/
+	// button that calls the method in RBTree that does the preorder traversal
+	/***************************************************************************/
+	private void preButton(Button preButt){
+		preButt.setOnMouseClicked(e-> {
+			rbtree.preorder();
+		});
+	}
+	
+	/***************************************************************************/
+	// button that calls the method in RBTree that does the inorder traversal
+	/***************************************************************************/
+	private void inButton(Button inButt){
+		inButt.setOnMouseClicked(e-> {
+			rbtree.inorder();
+		});
+	}
+	
+	/***************************************************************************/
+	// button that calls the method in RBTree that does the postorder traversal
+	/***************************************************************************/
+	private void postButton(Button postButt) {
+		postButt.setOnMouseClicked(e -> {
+			rbtree.postorder();
+		});
+	}
+	
+	
 	/***************************************************************************/
 	// seperate method that applies a action handler to the insert button
 	// which checks if they key has been used before or not
@@ -107,7 +135,7 @@ public class GUI extends Application {
 	// if the key has not been used the new node is then inserted into the 
 	// red black tree
 	/***************************************************************************/
-	public void insertButton(Button insertButt, TextField tf, TextField tf2) {
+	private void insertButton(Button insertButt, TextField tf, TextField tf2) {
 		insertButt.setOnMouseClicked(e -> {
 			tf.setPromptText("Key");  // adding this so user knows where to enter key and value
 			tf2.setPromptText("Value");
@@ -123,30 +151,6 @@ public class GUI extends Application {
 				view.displayTree();  //displays the red black tree 
 				view.setStatus(key + " has been placed in the tree");
 			}
-		});
-	}
-
-	/***************************************************************************/
-	// Same as previous method but in this case it deletes the key from the 
-	// Red black tree
-	/***************************************************************************/
-	public void deleteButton(Button delButt, TextField tf, TextField tf2) {
-		delButt.setOnMouseClicked(e -> {
-			tf.setPromptText("Key");
-			tf2.setPromptText("Value");
-
-			int key = Integer.parseInt(tf.getText());
-
-			if (rbtree.keySearch(key)) {
-				view.displayTree();
-				view.setStatus(key + " is not in the tree");
-			} else {
-				rbtree.deleteNode(); // delete the node corresponding to that
-										// key
-				view.displayTree();
-				view.setStatus(key + " has been deleted from the tree");
-			}
-
 		});
 	}
 

@@ -1,6 +1,11 @@
 package application;
 
-public class RBTree<T extends Comparable<T>, K> {
+import java.util.ArrayList;
+import java.util.Stack;
+
+
+@SuppressWarnings("serial")
+public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	protected Node<T, K> root;
 	protected final Node<T, K> NIL = new Node<T, K>(null, null, 'B');
 	
@@ -31,6 +36,9 @@ public class RBTree<T extends Comparable<T>, K> {
 		BSTInsert(newNode, key); // calls method to insert the new node into the
 									// Red Black Tree
 		check(newNode);
+		
+		
+		
 	}
 
 	/***************************************************************************/
@@ -40,7 +48,7 @@ public class RBTree<T extends Comparable<T>, K> {
 	// after finding the parent node it adds the node depening on comparable value
 	// of the keys'
 	/***************************************************************************/
-	public boolean BSTInsert(Node<T, K> newNode, T key) {
+	private boolean BSTInsert(Node<T, K> newNode, T key) {
 		if (root == null) {
 			root = newNode;
 			root.right = NIL;
@@ -87,7 +95,7 @@ public class RBTree<T extends Comparable<T>, K> {
 	// the requirements of a RBT, if it does not it is fixed accordingly 
 	// with the following cases
 	/***************************************************************************/
-	public boolean check(Node<T, K> node) {
+	private boolean check(Node<T, K> node) {
 		Node<T, K> uncle = findUncle(node);
 		Node<T, K> grandpa = findGrandPa(node);
 		Node<T, K> parent = node.parent;
@@ -139,7 +147,7 @@ public class RBTree<T extends Comparable<T>, K> {
 	// Finds the grandparent of any given node
 	// remember to check for cases where a node might not have a grandparent
 	/***************************************************************************/
-	public Node<T, K> findGrandPa(Node<T, K> node) {
+	private Node<T, K> findGrandPa(Node<T, K> node) {
 		if (node.parent != null && node.parent.parent != null)
 			return node = node.parent.parent;
 		return node;
@@ -148,20 +156,21 @@ public class RBTree<T extends Comparable<T>, K> {
 	/***************************************************************************/
 	// same as GPA
 	/***************************************************************************/
-	public Node<T, K> findUncle(Node<T, K> node) {
+	private Node<T, K> findUncle(Node<T, K> node) {
 		if (node.parent != null && node.parent.parent != null) {
 			if (node.parent.parent.left.key.compareTo(node.parent.key) == 0)
 				return node.parent.parent.right;
 			else
 				return node.parent.parent.left;
-
 		}
 		return node;
 	}
 
 	/***************************************************************************/
 	/***************************************************************************/
-	public void leftRotate(Node<T, K> root, Node<T, K> pivot) {
+	private void leftRotate(Node<T, K> root, Node<T, K> pivot) {
+//		root.right = pivot.left;
+//		pivot.left = root;
 		root = pivot.right;
 		pivot.right = root.left;
 		if(!root.left.equals(NIL))
@@ -179,40 +188,103 @@ public class RBTree<T extends Comparable<T>, K> {
 
 	/***************************************************************************/
 	/***************************************************************************/
-	public void rightRotate(Node<T, K> root, Node<T, K> pivot) {
-
+	private void rightRotate(Node<T, K> root, Node<T, K> pivot) {
+		root = pivot.left;
+		pivot.left = root.right;
+		if(!root.right.equals(NIL))
+			root.right.parent = pivot;
+		root.parent = pivot.parent;
+		if(pivot.parent.equals(NIL))
+			this.root = root;
+		else if(pivot.parent.left.key.compareTo(root.key) == 0)
+			pivot.parent.right = root;
+		else 
+			pivot.parent.left = root;
+		root.right = pivot;
+		pivot.parent = root;
 	}
 
 
 	/***************************************************************************/
 	/***************************************************************************/
 	public void preorder() {
-
+		ArrayList<Node<T, K>> preOrderList = new ArrayList<>();
+		Node<T, K> current = root;
+		
+		if(root != null)
+			push(root);
+		while(!empty()){
+			current = pop();
+			preOrderList.add(current);
+			if(current.right != null)
+				push(current.right);
+			if(current.left != null)
+				push(current.left);
+		}
+		for(int i = 0; i < preOrderList.size(); i++)
+			System.out.println(preOrderList.get(i).toString());
 	}
 
 	/***************************************************************************/
 	/***************************************************************************/
 	public void inorder() {
-
+		ArrayList<Node<T, K>> inOrderList = new ArrayList<>();
+		Node<T, K> current = root;
+		
+		while(!empty() || current != null){
+			if(current != null){
+				push(current);
+				System.out.println(current);
+			}else{
+				current = pop();
+				inOrderList.add(current);
+				current = current.right;
+			}
+		}
+		
+		for(int i = 0; i < inOrderList.size(); i++)
+			System.out.println(inOrderList.get(i).toString());
+		
 	}
 
 	/***************************************************************************/
 	/***************************************************************************/
 	public void postorder() {
-
+		ArrayList<Node<T, K>> postOrderList = new ArrayList<>();
+		ArrayList<Node<T, K>> visited = new ArrayList<>();
+		Node<T, K> current = root;
+		
+		push(root);
+		while(!empty()){
+			current = peek();
+			if(current.left != null && !visited(current.left, visited))
+				push(current.left);
+			else if(current.right != null && !visited(current.right, visited))
+				push(current.right);
+			else{
+				postOrderList.add(current);
+				visited.add(current);
+				pop();
+			}
+		}
+	}
+	
+	/***************************************************************************/
+	// method that checks to see if the current node has been visited already or not
+	/***************************************************************************/
+	private boolean visited(Node<T, K> node, ArrayList<Node<T, K>> visited) {
+		for (int i = 0; i < visited.size(); i++) {
+			if (visited.get(i).key.equals(node.key)) 
+				return true;
+		}
+		return false;
 	}
 
 	/***************************************************************************/
 	/***************************************************************************/
 	public void breadthFirstSearch() {
-
-	}
-
-	/***************************************************************************/
-	// this is a filler method for now
-	/***************************************************************************/
-	public void deleteNode() {
-		// this is a filler method for now
+		ArrayList<Node<T, K>> bfsList = new ArrayList<>();
+		Node<T, K> current = null;
 	}
 
 	/***************************************************************************/
