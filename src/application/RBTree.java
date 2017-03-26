@@ -83,43 +83,55 @@ public class RBTree<T extends Comparable<T>, K> {
 	}
 	
 	/***************************************************************************/
+	// Everytime a node is added the Red Black Tree is checked if it meets
+	// the requirements of a RBT, if it does not it is fixed accordingly 
+	// with the following cases
 	/***************************************************************************/
 	public boolean check(Node<T, K> node) {
-		Node<T, K > uncle = findUncle(node);
+		Node<T, K> uncle = findUncle(node);
 		Node<T, K> grandpa = findGrandPa(node);
 		Node<T, K> parent = node.parent;
-		
-		if(node.equals(root)){
+
+		if (node.equals(root)) {
 			node.color = 'B';
 			return true;
 		}
-		
-		if(node.parent.color == 'B'){
+
+		if (node.parent.color == 'B')
 			return true;
-		}
-		
-		if(parent.color == 'R' && uncle.color == 'R'){
+
+		if (parent.color == 'R' && uncle.color == 'R') {
 			parent.color = 'B';
 			uncle.color = 'B';
 			grandpa.color = 'R';
 			check(grandpa);
 			return true;
 		}
-		
-		if(parent.color == 'R' && uncle.color == 'B'){
-			if(parent.right.key.compareTo(node.key) == 0 && grandpa.left.key.compareTo(parent.key) == 0){
+
+		if (parent.color == 'R' && uncle.color == 'B') {
+			if (parent.right.equals(node) && grandpa.left.equals(parent)) {
 				leftRotate(parent, node);
 				node = parent;
 			}
-			if(parent.left.key.compareTo(node.key) == 0 && grandpa.right.key.compareTo(parent.key) == 0){
+			if (parent.left.equals(node) && grandpa.right.equals(parent)) {
 				rightRotate(parent, node);
 				node = parent;
 			}
 		}
-		
-		
-		
-		
+
+		if (parent.color == 'R' && uncle.color == 'B') {
+			if (parent.left.equals(node) && grandpa.left.equals(parent)) {
+				parent.color = 'B';
+				grandpa.color = 'R';
+				rightRotate(grandpa, parent);
+			}
+			if (parent.right.equals(node.key) && grandpa.right.equals(parent)) {
+				parent.color = 'B';
+				grandpa.color = 'R';
+				leftRotate(grandpa, parent);
+			}
+		}
+
 		return false;
 	}
 	
@@ -128,7 +140,8 @@ public class RBTree<T extends Comparable<T>, K> {
 	// remember to check for cases where a node might not have a grandparent
 	/***************************************************************************/
 	public Node<T, K> findGrandPa(Node<T, K> node) {
-		
+		if (node.parent != null && node.parent.parent != null)
+			return node = node.parent.parent;
 		return node;
 	}
 	
@@ -136,14 +149,32 @@ public class RBTree<T extends Comparable<T>, K> {
 	// same as GPA
 	/***************************************************************************/
 	public Node<T, K> findUncle(Node<T, K> node) {
+		if (node.parent != null && node.parent.parent != null) {
+			if (node.parent.parent.left.key.compareTo(node.parent.key) == 0)
+				return node.parent.parent.right;
+			else
+				return node.parent.parent.left;
 
+		}
 		return node;
 	}
 
 	/***************************************************************************/
 	/***************************************************************************/
 	public void leftRotate(Node<T, K> root, Node<T, K> pivot) {
-
+		root = pivot.right;
+		pivot.right = root.left;
+		if(!root.left.equals(NIL))
+			root.left.parent = pivot;
+		root.parent = pivot.parent;
+		if(pivot.parent.equals(NIL))
+			this.root = root;
+		else if(pivot.parent.right.key.compareTo(root.key) == 0)
+			pivot.parent.left = root;
+		else 
+			pivot.parent.right = root;
+		root.left = pivot;
+		pivot.parent = root;
 	}
 
 	/***************************************************************************/

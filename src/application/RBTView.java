@@ -39,9 +39,8 @@ public class RBTView extends Pane {
 	/***************************************************************************/
 	public void displayTree() {
 		this.getChildren().clear();
-		if (rbtree.getRoot() != null) {
+		if (rbtree.getRoot() != null) 
 			displayTree(rbtree.getRoot(), getWidth() / 2, vGap, getWidth() / 4);
-		}
 	}
 
 	/***************************************************************************/
