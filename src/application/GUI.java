@@ -15,12 +15,11 @@ public class GUI extends Application {
 	RBTView view = new RBTView(rbtree);
 
 	/***************************************************************************/
-	//Most of the GUI code, creating buttons and panes and the like
+	// Most of the GUI code, creating buttons and panes and the like
 	/***************************************************************************/
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
 			BorderPane bp = new BorderPane();
 			bp.getStyleClass().add("pane");
 
@@ -84,36 +83,38 @@ public class GUI extends Application {
 		inButt.getStyleClass().add("button");
 		Button postButt = new Button("Postorder Traversal");
 		postButt.getStyleClass().add("button");
-		Button breButt = new Button("BFS Traversal");
-		breButt.getStyleClass().add("button");
+		Button bfsButt = new Button("BFS Traversal");
+		bfsButt.getStyleClass().add("button");
 
 		// Adding the buttons to the HBox
-		hb.getChildren().addAll(preButt, inButt, postButt, breButt);
+		hb.getChildren().addAll(preButt, inButt, postButt, bfsButt);
 
-		// calling the methods that add event handlers corresponding to each button
+		// calling the methods that add event handlers corresponding to each
+		// button
 		preButton(preButt);
 		inButton(inButt);
 		postButton(postButt);
+		bfsButton(bfsButt);
 	}
 
 	/***************************************************************************/
 	// button that calls the method in RBTree that does the preorder traversal
 	/***************************************************************************/
-	private void preButton(Button preButt){
-		preButt.setOnMouseClicked(e-> {
+	private void preButton(Button preButt) {
+		preButt.setOnMouseClicked(e -> {
 			rbtree.preorder();
 		});
 	}
-	
+
 	/***************************************************************************/
 	// button that calls the method in RBTree that does the inorder traversal
 	/***************************************************************************/
-	private void inButton(Button inButt){
-		inButt.setOnMouseClicked(e-> {
+	private void inButton(Button inButt) {
+		inButt.setOnMouseClicked(e -> {
 			rbtree.inorder();
 		});
 	}
-	
+
 	/***************************************************************************/
 	// button that calls the method in RBTree that does the postorder traversal
 	/***************************************************************************/
@@ -122,27 +123,41 @@ public class GUI extends Application {
 			rbtree.postorder();
 		});
 	}
-	
+
+	/***************************************************************************/
+	// button that calls the method in RBTree that does the postorder traversal
+	/***************************************************************************/
+	private void bfsButton(Button bfsButt) {
+		bfsButt.setOnMouseClicked(e -> {
+			rbtree.breadthFirstSearch();
+		});
+	}
 	
 	/***************************************************************************/
 	// seperate method that applies a action handler to the insert button
 	// which checks if they key has been used before or not
-	// if the key has been used it just displays the red black tree with no changes
-	// if the key has not been used the new node is then inserted into the 
+	// if the key has been used it just displays the red black tree with no
+	// changes
+	// if the key has not been used the new node is then inserted into the
 	// red black tree
 	/***************************************************************************/
 	private void insertButton(Button insertButt, TextField tf, TextField tf2) {
 		insertButt.setOnMouseClicked(e -> {
-			tf.setPromptText("Key");  // adding this so user knows where to enter key and value
+			tf.setPromptText("Key"); // adding this so user knows where to enter
+										// key and value
 			tf2.setPromptText("Value");
 
-			int key = Integer.parseInt(tf.getText());  // grabs the input from the first text field which is the key
-			String value = tf2.getText();  //grabs the input for the second text field which is the value
+			int key = Integer.parseInt(tf.getText()); // grabs the input from
+														// the first text field
+														// which is the key
+			String value = tf2.getText(); // grabs the input for the second text
+											// field which is the value
 
-				rbtree.insert(key, value); // calls methods to insert the new key to the RB tree
-				view.displayTree();  //displays the red black tree 
-				view.setStatus(key + " has been placed in the tree");
-			
+			rbtree.insert(key, value); // calls methods to insert the new key to
+										// the RB tree
+			view.displayTree(); // displays the red black tree
+			view.setStatus(key + " has been placed in the tree");
+
 		});
 	}
 

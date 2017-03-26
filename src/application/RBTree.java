@@ -30,6 +30,13 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 		BSTInsert(newNode, key); // calls method to insert the new node into the
 									// Red Black Tree
 		check(newNode);
+//		
+//		ArrayList<Node<T,K>> list = preorder();
+//		
+//		for(int i = 0; i < list.size(); i++){
+//			System.out.println(list.get(i).toString() + " grandpa " + findGrandPa(list.get(i)) + " uncle " + findUncle(list.get(i)));
+//			
+//		}
 	}
 
 	/***************************************************************************/
@@ -140,22 +147,10 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	/***************************************************************************/
 	// does a left rotate depending on the nodes that are passed
 	// changes pointer structure to fix the ordering of nodes
-	// assumes 
 	/***************************************************************************/
 	private void leftRotate(Node<T, K> root, Node<T, K> pivot) {
-		root = pivot.right;
-		pivot.right = root.left;  // changing roots left subtree to pivots right subtree
-		if (!root.left.equals(NIL)) // if roots left child is not nil parent gets changed to pivot
-			root.left.parent = pivot;
-		root.parent = pivot.parent;  // changing pivots parent to roots parent
-		if (pivot.parent.equals(NIL))
-			this.root = root;
-		else if (pivot.parent.right.equals(root)) // checking to see if the node is on the right or left side 
-			pivot.parent.left = root;  // if its on the right side the left node is now the root 
-		else
-			pivot.parent.right = root;  // otherwise the node is added to right side since it is on left side
-		root.left = pivot; // pivot is now on roots left
-		pivot.parent = root;  // changing pivots parent to root
+		root.right = pivot.left;
+		pivot.left = root;
 	}
 
 	/***************************************************************************/
@@ -163,19 +158,8 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	// same as above but done for the opposite side
 	/***************************************************************************/
 	private void rightRotate(Node<T, K> root, Node<T, K> pivot) {
-		root = pivot.left;
-		pivot.left = root.right;
-		if (!root.right.equals(NIL))
-			root.right.parent = pivot;
-		root.parent = pivot.parent;
-		if (pivot.parent.equals(NIL))
-			this.root = root;
-		else if (pivot.parent.left.equals(root))
-			pivot.parent.right = root;
-		else
-			pivot.parent.left = root;
-		root.right = pivot;
-		pivot.parent = root;
+		root.left = pivot.right;
+		pivot.right = root;
 	}
 
 	/***************************************************************************/
@@ -185,9 +169,12 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	// grandpa
 	/***************************************************************************/
 	private Node<T, K> findGrandPa(Node<T, K> node) {
+		
 		if (node.parent != null && node.parent.parent != null)
 			return node = node.parent.parent;
-		return node;
+		else
+			return null;
+		
 	}
 	
 	/***************************************************************************/
@@ -201,10 +188,10 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 		if (node.parent != null && node.parent.parent != null) {
 			if (node.parent.parent.left.equals(node.parent))
 				return node.parent.parent.right;
-			else
+			else 
 				return node.parent.parent.left;
 		}
-		return node;
+		return null;
 	}
 	
 	/***************************************************************************/
@@ -280,8 +267,21 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	/***************************************************************************/
 	// BFS of the Red Black Tree
 	/***************************************************************************/
-	public void breadthFirstSearch() {
+	public ArrayList<Node<T, K>> breadthFirstSearch() {
+		java.util.Queue<Node<T, K>> queue = new java.util.LinkedList<>();
 		ArrayList<Node<T, K>> bfsList = new ArrayList<>();
-		Node<T, K> current = null;
+		Node<T, K> current = root;
+		
+		queue.offer(current);
+		while(!queue.isEmpty()){
+			current = queue.peek();
+			if(current.left != null)
+				queue.offer(current.left);
+			if(current.right != null)
+				queue.offer(current.right);
+			bfsList.add(queue.remove());
+		}
+		
+		return bfsList;
 	}
 }
