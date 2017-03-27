@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,8 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class GUI extends Application {
+public class GUI<T extends Comparable<T>, K> extends Application {
 	RBTree<Integer, String> rbtree = new RBTree<>();
+	RBTTraversals trav = new RBTTraversals();
 	RBTView view = new RBTView(rbtree);
 
 	/***************************************************************************/
@@ -54,9 +57,12 @@ public class GUI extends Application {
 			HBox hb3 = new HBox();
 			hb3.getStyleClass().add("hbox");
 			hb3.getChildren().addAll(lbl, tf, tf2, insertButt);
-
+			
+			VBox vb2 = new VBox();
+			vb2.getChildren().addAll(view, trav);
+			
 			bp.setTop(vb);
-			bp.setCenter(view);
+			bp.setCenter(vb2);
 			bp.setBottom(hb3);
 
 			insertButton(insertButt, tf, tf2);
@@ -102,7 +108,9 @@ public class GUI extends Application {
 	/***************************************************************************/
 	private void preButton(Button preButt) {
 		preButt.setOnMouseClicked(e -> {
-			rbtree.preorder();
+			String title = "Preorder Traversal";
+			ArrayList<Node<Integer, String>> list = rbtree.preorder();
+			trav.displayLinks(list, title);
 		});
 	}
 
@@ -111,7 +119,9 @@ public class GUI extends Application {
 	/***************************************************************************/
 	private void inButton(Button inButt) {
 		inButt.setOnMouseClicked(e -> {
-			rbtree.inorder();
+			String title = "Inorder Traversal";
+			ArrayList<Node<Integer, String>> list = rbtree.inorder();
+			trav.displayLinks(list, title);
 		});
 	}
 
@@ -120,7 +130,10 @@ public class GUI extends Application {
 	/***************************************************************************/
 	private void postButton(Button postButt) {
 		postButt.setOnMouseClicked(e -> {
-			rbtree.postorder();
+			String title = "Postorder Traversal";
+			ArrayList<Node<Integer, String>> list = rbtree.postorder();
+			trav.displayLinks(list, title);
+			
 		});
 	}
 
@@ -129,7 +142,9 @@ public class GUI extends Application {
 	/***************************************************************************/
 	private void bfsButton(Button bfsButt) {
 		bfsButt.setOnMouseClicked(e -> {
-			rbtree.breadthFirstSearch();
+			String title = "Breadth First Search Traversal";
+			ArrayList<Node<Integer, String>> list = rbtree.breadthFirstSearch();
+			trav.displayLinks(list, title);
 		});
 	}
 	
