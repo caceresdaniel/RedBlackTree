@@ -81,7 +81,7 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	}
 
 	/***************************************************************************/
-	// Everytime a node is added the Red Black Tree is checked if it meets
+	// Every time a node is added the Red Black Tree is checked if it meets
 	// the requirements of a RBT, if it does not it is fixed accordingly 
 	// with the following cases
 	/***************************************************************************/

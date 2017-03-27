@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class GUI<T extends Comparable<T>, K> extends Application {
+public class GUI extends Application {
 	RBTree<Integer, String> rbtree = new RBTree<>();
 	RBTTraversals trav = new RBTTraversals();
 	RBTView view = new RBTView(rbtree);
