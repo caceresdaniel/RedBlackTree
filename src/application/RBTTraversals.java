@@ -34,11 +34,11 @@ public class RBTTraversals extends Pane {
 			getChildren().addAll(circle);
 
 			if (list.get(i).key == null) {
-				Text txt = new Text(width - 805, 485, "NIL");
+				Text txt = new Text(width - 800, 485, "NIL");
 				txt.setFill(Color.WHITE);
 				getChildren().add(txt);
 			} else {
-				Text txt = new Text(width - 805, 485, list.get(i).key.toString());
+				Text txt = new Text(width - 800, 485, list.get(i).key.toString());
 				txt.setFill(Color.WHITE);
 				getChildren().add(txt);
 			}
