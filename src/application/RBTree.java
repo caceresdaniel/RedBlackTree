@@ -142,19 +142,11 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	// changes pointer structure to fix the ordering of nodes
 	/***************************************************************************/
 	private void leftRotate(Node<T, K> root, Node<T, K> pivot) {
-		root = pivot.right;
-		pivot.right = root.left;  // changing roots left subtree to pivots right subtree
-		if (!root.left.equals(NIL)) // if roots left child is not nil parent gets changed to pivot
-			root.left.parent = pivot;
-		root.parent = pivot.parent;  // changing pivots parent to roots parent
-		if (pivot.parent.equals(NIL))
-			this.root = root;
-		else if (pivot.parent.right.equals(root)) // checking to see if the node is on the right or left side 
-			pivot.parent.left = root;  // if its on the right side the left node is now the root 
-		else
-			pivot.parent.right = root;  // otherwise the node is added to right side since it is on left side
-		root.left = pivot; // pivot is now on roots left
-		pivot.parent = root;  // changing pivots parent to root
+		root.right = pivot.left;
+		pivot.left = root;
+		pivot.parent = root.parent;
+		pivot.parent.left = pivot;
+		root.parent = pivot;
 	}
 
 	/***************************************************************************/
@@ -162,19 +154,11 @@ public class RBTree<T extends Comparable<T>, K> extends Stack<Node<T, K>>{
 	// same as above but done for the opposite side
 	/***************************************************************************/
 	private void rightRotate(Node<T, K> root, Node<T, K> pivot) {
-		root = pivot.left;
-		pivot.left = root.right;
-		if (!root.right.equals(NIL))
-			root.right.parent = pivot;
-		root.parent = pivot.parent;
-		if (pivot.parent.equals(NIL))
-			this.root = root;
-		else if (pivot.parent.left.equals(root))
-			pivot.parent.right = root;
-		else
-			pivot.parent.left = root;
-		root.right = pivot;
-		pivot.parent = root;
+		root.left = pivot.right;
+		pivot.right = root;
+		pivot.parent = root.parent;
+		pivot.parent.right = pivot;
+		root.parent = pivot;
 	}
 
 	/***************************************************************************/
