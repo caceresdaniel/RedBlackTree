@@ -12,8 +12,8 @@ import javafx.scene.text.Text;
 public class RBTView extends Pane {
 
 	private RBTree<Integer, String> rbtree = new RBTree<>();
-	private double radius = 20;  // defines the radius of the nodes
-	private double vGap = 50;  // defines the gap between each node 
+	private double radius = 20; // defines the radius of the nodes
+	private double vGap = 50; // defines the gap between each node
 
 	/***************************************************************************/
 	// Constructor for the Red black tree gui to be used in the main gui code 
@@ -39,7 +39,7 @@ public class RBTView extends Pane {
 	/***************************************************************************/
 	public void displayTree() {
 		this.getChildren().clear();
-		if (rbtree.getRoot() != null) 
+		if (rbtree.getRoot() != null)
 			displayTree(rbtree.getRoot(), getWidth() / 2, vGap, getWidth() / 4);
 	}
 
@@ -63,7 +63,7 @@ public class RBTView extends Pane {
 		}
 
 		Circle circle = new Circle(x, y, radius);
-		
+
 		// this code was added to show the NIL nodes
 		if (root.equals(rbtree.NIL)) {
 			Text txt = new Text(x - 10, y + 4, "NIL");

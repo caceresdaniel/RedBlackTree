@@ -57,10 +57,10 @@ public class GUI<T extends Comparable<T>, K> extends Application {
 			HBox hb3 = new HBox();
 			hb3.getStyleClass().add("hbox");
 			hb3.getChildren().addAll(lbl, tf, tf2, insertButt);
-			
+
 			VBox vb2 = new VBox();
 			vb2.getChildren().addAll(view, trav);
-			
+
 			bp.setTop(vb);
 			bp.setCenter(vb2);
 			bp.setBottom(hb3);
@@ -133,7 +133,7 @@ public class GUI<T extends Comparable<T>, K> extends Application {
 			String title = "Postorder Traversal";
 			ArrayList<Node<Integer, String>> list = rbtree.postorder();
 			trav.displayLinks(list, title);
-			
+
 		});
 	}
 
@@ -147,7 +147,7 @@ public class GUI<T extends Comparable<T>, K> extends Application {
 			trav.displayLinks(list, title);
 		});
 	}
-	
+
 	/***************************************************************************/
 	// seperate method that applies a action handler to the insert button
 	// which checks if they key has been used before or not
